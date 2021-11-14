@@ -1,0 +1,11 @@
+<angular4-paystack
+[email]="'mailexample@mail.com'"
+[amount]="5000000"
+[ref]="reference"
+[channels]="['bank']"
+[class]="'btn btn-primary'"
+(onClose)="paymentCancel()"
+(callback)="paymentDone($event)"
+>
+Pay with Paystack
+</angular4-paystack>
