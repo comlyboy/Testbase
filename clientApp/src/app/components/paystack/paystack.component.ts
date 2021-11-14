@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PaystackOptions } from 'angular4-paystack';
 
 @Component({
@@ -7,29 +7,41 @@ import { PaystackOptions } from 'angular4-paystack';
   styleUrls: ['./paystack.component.scss']
 })
 export class PaystackComponent implements OnInit {
-  options: PaystackOptions = {
-    amount: 50000,
-    email: 'user@mail.com',
-    ref: `${Math.ceil(Math.random() * 10e10)}`
-  }
+  @Input() amount = 0;
+  @Input() email = '';
+
+  @Output() PaymentSuccess = new EventEmitter();
+
   reference = '';
-    constructor() {}
 
-    paymentInit() {
-      console.log('Payment initialized');
-    }
+  options: PaystackOptions = {
+    amount: this.amount,
+    email: this.email,
+    ref: this.reference
+  }
 
-    paymentDone(ref: any) {
-      // this.title = 'Payment successfull';
-      // console.log(this.title, ref);
-    }
 
-    paymentCancel() {
-      console.log('payment failed');
-    }
+  constructor() { }
 
-    ngOnInit() {
-      this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
-    }
+
+  paymentInit() {
+    console.log('Payment initialized');
+  }
+
+
+  paymentDone(ref: any) {
+    // this.title = 'Payment successfull';
+    // console.log(this.title, ref);
+  }
+
+
+  paymentCancel() {
+    console.log('payment failed');
+  }
+
+  ngOnInit() {
+    this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
+    console.log(this.reference)
+  }
 
 }
