@@ -3,6 +3,7 @@ const { registerValidator } = require("../../utils/validation");
 const encryptPassword = require("../../utils/encryptPassword");
 const { v4 } = require('uuid');
 const axios = require('axios');
+const rabbit = require('../../rabbit');
 
 const handleValidation = (body, key) => {
   const { error } = registerValidator(body);
@@ -44,11 +45,8 @@ const registerController = async (req, res) => {
     });
 
     const emailApi = process.env.EMAIL_API + 'email';
-    
-    axios({
-      method: 'POST',
-      url: emailApi,
-      data: {
+
+const emailData = {
         email: username,
         subject: "Please confirm your account",
         html: `<h1>Email Confirmation</h1>
@@ -56,10 +54,10 @@ const registerController = async (req, res) => {
             <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
             <a href=http://localhost:3000/confirm/${token}> Click here</a>
             </div>`,
-      }
-    }).then((data) => console.log({ data }))
-    .catch((error) => console.log({ error }));
-
+      };
+      const broker = await rabbit.getInstance();
+      await broker.send('email-queue', Buffer.from(JSON.stringify(emailData)));
+      
     await user.save();
 
     return res.status(201).json({

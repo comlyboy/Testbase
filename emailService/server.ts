@@ -6,6 +6,9 @@ require('dotenv').config();
 
 // import routes
 import router from './src/routes';
+import MessageBroker from './src/messaging';
+import { EmailUtils } from './src/utils';
+import { IEmailConfig } from './src/models';
 
 const app = express();
 
@@ -16,6 +19,14 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', router);
+
+MessageBroker.getInstance().then((broker) => {
+  broker.subscribe('email-queue', (message: any, ack: any) => {
+    const emailData = JSON.parse(message.content.toString()) as IEmailConfig
+    EmailUtils.send(emailData)
+    ack?.();
+  })
+}).catch((error) => console.log({ error }));
 
 app.get("/", (req, res) => {
     res.send(`<h1>Welcome to the ExquisApp Testbase Email service <br> part of the Moneypal Application</h1>
