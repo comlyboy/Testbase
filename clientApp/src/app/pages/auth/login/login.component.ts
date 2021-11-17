@@ -16,26 +16,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   onLoginUser(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
+    if (form.invalid) return;
 
     const authdata: any = {
       email: form.value.inputEmail,
       password: form.value.inputPassword
     }
     this.authService.loginUser(authdata);
-  }
-
-
-  onTogglePasswordDisplay() {
-    if (this.passwordInputType === 'password') {
-      return this.passwordInputType = 'text'
-    }
-    if (this.passwordInputType === 'text') {
-      return this.passwordInputType = 'password'
-    }
-    return;
   }
 
 

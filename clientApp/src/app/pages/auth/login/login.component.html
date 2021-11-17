@@ -21,7 +21,9 @@
                 </div> -->
 
                 <div class="form-floating">
-                    <input class="form-control" id="floatingInput" type="email" name="inputEmail" ngModel
+                    <input
+                        [ngClass]="{'is-invalid animate__animated animate__headShake': email.touched && email.invalid}"
+                        class="form-control" id="floatingInput" type="email" name="inputEmail" ngModel
                         placeholder="Email" #email="ngModel" minlength="5" autocomplete="off" required />
                     <label for="floatingInput">Email</label>
                 </div>
