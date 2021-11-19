@@ -10,7 +10,7 @@ import { PaystackComponent } from './paystack.component';
   declarations: [PaystackComponent],
   imports: [
     CommonModule,
-    Angular4PaystackModule.forRoot('pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'),
+    Angular4PaystackModule.forRoot('pk_test_86a34dfe9bb54afb6fd8d566918c1e83ed0c440e'),
   ],
   exports: [PaystackComponent],
 })

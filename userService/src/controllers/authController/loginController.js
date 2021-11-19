@@ -51,7 +51,7 @@ const loginController = async (req, res) => {
         username: user.username,
         token,
         firstName: user.first_name,
-        lastName: user.last_name
+        surName: user.last_name
       }
     });
   } catch (error) {

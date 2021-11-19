@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PaystackOptions } from 'angular4-paystack';
+import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-paystack',
@@ -7,21 +8,18 @@ import { PaystackOptions } from 'angular4-paystack';
   styleUrls: ['./paystack.component.scss']
 })
 export class PaystackComponent implements OnInit {
-  @Input() amount = 0;
-  @Input() email = '';
+  @Input() amount = 23420;
+  @Input() email = 'okekecornelius@gmail.com';
 
   @Output() PaymentSuccess = new EventEmitter();
 
   reference = '';
 
-  options: PaystackOptions = {
-    amount: this.amount,
-    email: this.email,
-    ref: this.reference
-  }
+  options!: PaystackOptions;
 
-
-  constructor() { }
+  constructor(
+    private notificationService: NotificationService
+  ) { }
 
 
   paymentInit() {
@@ -29,9 +27,8 @@ export class PaystackComponent implements OnInit {
   }
 
 
-  paymentDone(ref: any) {
-    // this.title = 'Payment successfull';
-    // console.log(this.title, ref);
+  paymentDone(response: any) {
+    this.notificationService.notify(response.message)
   }
 
 
@@ -41,7 +38,13 @@ export class PaystackComponent implements OnInit {
 
   ngOnInit() {
     this.reference = `ref-${Math.ceil(Math.random() * 10e13)}`;
-    console.log(this.reference)
+
+    this.options = {
+      amount: this.amount,
+      email: this.email,
+      ref: this.reference
+    }
+
   }
 
 }

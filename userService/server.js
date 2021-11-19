@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./src/config/db");
@@ -11,10 +10,9 @@ const authRoute = require("./src/routes/authRoute");
 const userRoute = require("./src/routes/userRoute");
 
 //middlewares
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors());
 
 
 //Routes
@@ -25,9 +23,9 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-// connectDB();
+connectDB();
 app.listen(process.env.PORT, () =>
-  console.log(`server running on port ${process.env.PORT}`)
+  console.log(`Server running on http://localhost:${process.env.PORT}`)
 );
 
 module.exports = app

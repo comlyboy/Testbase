@@ -25,13 +25,13 @@ const registerController = async (req, res) => {
 
     const usernameExist = await User.findOne({ username });
     if (usernameExist) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         message: "Username/password already exists",
         isSuccessful: false,
         data: undefined
       });
     }
-    
+
     const hashed = await encryptPassword(password);
     const token = v4();
 
@@ -46,18 +46,18 @@ const registerController = async (req, res) => {
 
     const emailApi = process.env.EMAIL_API + 'email';
 
-const emailData = {
-        email: username,
-        subject: "Please confirm your account",
-        html: `<h1>Email Confirmation</h1>
+    const emailData = {
+      email: username,
+      subject: "Please confirm your account",
+      html: `<h1>Email Confirmation</h1>
             <h2>Hello ${username.split('@')[0].trim()}</h2>
             <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
             <a href=http://localhost:3000/confirm/${token}> Click here</a>
             </div>`,
-      };
-      const broker = await rabbit.getInstance();
-      await broker.send('email-queue', Buffer.from(JSON.stringify(emailData)));
-      
+    };
+    const broker = await rabbit.getInstance();
+    await broker.send('email-queue', Buffer.from(JSON.stringify(emailData)));
+
     await user.save();
 
     return res.status(201).json({
@@ -66,7 +66,7 @@ const emailData = {
       data: null
     });
   } catch (error) {
-    return res.status(400).json({ 
+    return res.status(400).json({
       message: error.message,
       isSuccessful: false,
       data: undefined

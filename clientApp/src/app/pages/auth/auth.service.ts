@@ -8,6 +8,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { StorageService } from '../../service/storage.service';
 import { NavigationService } from '../../service/navigation.service';
 import { NotificationService } from '../../components/notification/notification.service';
+import { UserSignUpDto } from './user.dto';
 // import { UserSignUpDto, UserSignInDto } from '../user/user.dto';
 // import { IUser, UserTypeEnum } from '../user/user.interface';
 
@@ -58,31 +59,17 @@ export class AuthService {
   /**
   * User signup
   */
-  registerUser(userSignUpDto: any) {
-    this.http.post<{ message: string, token: string, user: any }>(`${this.API_URL}user/signUp`, userSignUpDto)
+  registerUser(userSignUpDto: UserSignUpDto) {
+    this.http.post<{ message: string, isSuccessful: boolean }>(`${this.API_URL.user}api/auth/register`, userSignUpDto)
       .subscribe(response => {
 
-        // const user = response.user;
-        // const token = response.token;
-        // const permissions = response.user.roles;
-        // this.permissions = response.user.roles;
-        // this.token = token;
-        // this.userId = response.user._id;
-        // this.loggedUser = user;
+        if (!response.isSuccessful) {
+          return this.notificationsService.notify(response.message);
+        }
 
-        // if (!token) {
-        //   this.logout();
-        //   return this.notificationsService.notify('Login not successful', 'error');
-        // }
+        this.notificationsService.notify(response.message);
 
-        // this.userIsAuthenticated = true;
-        // // this.authenticatedUserType = AuthenticatedUserTypeEnum.owner;
-        // this.saveAuthenticationData(token, user);
-        // this.authenticationStatusListener.next(true);
-        // // this.authenticatedUserTypeListener.next(AuthenticatedUserTypeEnum.owner);
-        // this.authenticatedUserPermissionsListener.next(permissions);
-        // this.notificationsService.notify(response.message);
-        // this.navigationService.goToMenu();
+        this.navigationService.goToLogin();
       }, error => {
         this.authenticationStatusListener.next(false);
         // this.notificationsService.notify(error.message, `error`);
@@ -99,20 +86,21 @@ export class AuthService {
       return this.notificationsService.notify('A user already Authenticated', 'info');
     }
 
-    this.http.post<{ token: string, user: any }>(`${this.API_URL}user/signIn`, userSignInDto)
+    this.http.post<{ message: string, isSuccessful: boolean, data: any }>(`${this.API_URL}api/login`, userSignInDto)
       .subscribe(response => {
-        const user = response.user;
-        const token = response.token;
-        this.userId = response.user._id;
 
-        if (!token) {
-          this.logout();
-          return this.notificationsService.notify('Login not successful', 'error');
+        const token = response.data.token;
+        this.token = token;
+        this.userId = response.data.id;
+
+        if (!response.isSuccessful) {
+          return this.notificationsService.notify(response.message);
         }
 
+        this.notificationsService.notify(response.message);
         this.userIsAuthenticated = true;
         // this.authenticatedUserType = AuthenticatedUserTypeEnum.owner;
-        this.saveAuthenticationData(token, user);
+        // this.saveAuthenticationData(token, user);
         this.authenticationStatusListener.next(true);
       }, error => {
         this.authenticationStatusListener.next(false);

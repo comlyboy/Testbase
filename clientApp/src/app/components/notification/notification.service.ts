@@ -80,7 +80,7 @@ export class NotificationService {
         notifications: this.notifications = []
       });
 
-    }, 7000);
+    }, 8000);
 
   }
 

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { merge, fromEvent, Observable, Observer } from 'rxjs';
 
 import { StorageService } from './storage.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
+// import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 @Injectable({
@@ -17,7 +17,7 @@ export class UtilityService {
     private title: Title,
     private meta: Meta,
     private storageService: StorageService,
-    private deviceService: DeviceDetectorService
+    // private deviceService: DeviceDetectorService
   ) { }
 
 
@@ -35,7 +35,7 @@ export class UtilityService {
       pageTitle = `${pageTitle} in  ${branch.name.toUpperCase()} `
     }
 
-    this.title.setTitle(`${pageTitle} - Handyman app`);
+    this.title.setTitle(`${pageTitle} - MoneyPal`);
   }
 
 
@@ -54,7 +54,7 @@ export class UtilityService {
  */
   getIsDesktopDevice() {
     // this returns true if is a computer screen size 
-    return this.deviceService.isDesktop();
+    // return this.deviceService.isDesktop();
   }
 
 

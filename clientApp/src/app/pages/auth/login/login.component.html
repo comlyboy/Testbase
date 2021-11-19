@@ -1,7 +1,7 @@
 <section class="wrapper">
 
-    <div class="py-3 text-center">
-        <img src="../../../../assets/imgs/handy_logo.png" alt="" srcset="">
+    <div class="pb-4 text-center">
+        <img src="../../../../assets/imgs/logo.png" alt="" srcset="">
     </div>
 
     <div class="content">
@@ -51,7 +51,7 @@
                 <div class="form-floating mt-4">
                     <input
                         [ngClass]="{'is-invalid animate__animated animate__headShake': password.touched && password.invalid}"
-                        class="form-control" id="floatingInput" [type]="passwordInputType" name="inputPassword" ngModel
+                        class="form-control" id="floatingInput" type="password" name="inputPassword" ngModel
                         minlength="6" placeholder="Password" #password="ngModel" required />
                     <label for="floatingInput">Password</label>
                 </div>
@@ -72,7 +72,7 @@
                     </span>
                 </div>
 
-                <div class="text-center mt-4">
+                <!-- <div class="text-center mt-4">
                     <small class="mb-0">By signing up signifies that you have read and agreed to
                         our
                         <br>
@@ -86,12 +86,7 @@
                                 FAQs</a>
                         </span>.
                     </small>
-                </div>
-
-                <!-- <div class="text-center  mt-3">
-                    Dont have an account? <span class="ml-1"> <a routerLink="/register">Register</a>
-                    </span>
-                </div> -->
+                </div>  -->
 
             </section>
             <footer>

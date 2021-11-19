@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { NavigationService } from '../../../service/navigation.service';
-import { UserSignUpDto } from '../../user/user.dto';
 
 import { AuthService } from '../auth.service';
+import { UserSignUpDto } from '../user.dto';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss', '../../../../assets/css/custom-form.scss']
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
   passwordInputType = 'password';
@@ -26,12 +26,11 @@ export class SignupComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    
+
     const registrationData: UserSignUpDto = {
       firstName: form.value.inputFirstName,
       surName: form.value.inputSurName,
-      userName: form.value.inputUserName,
-      registrationCode: form.value.inputRegistrationCode.toString(),
+      username: form.value.inputEmail,
       password: form.value.inputPassword1
     }
 
@@ -46,6 +45,7 @@ export class SignupComponent implements OnInit {
     if (this.passwordInputType === 'text') {
       return this.passwordInputType = 'password'
     }
+    return;
   }
 
 
@@ -63,15 +63,14 @@ export class SignupComponent implements OnInit {
 
   initContent() {
     const isAuth = this.authService.getIsAuthenticated();
-    const userType = this.authService.getAuthenticatedUserType()
 
     if (isAuth) {
-      this.navigationService.goToMenu();
+      // this.navigationService.goto();
     }
   }
 
 
-  
+
   ngOnInit(): void {
     this.initContent();
   }

@@ -15,11 +15,11 @@ const getAllUsersController = async (req, res) => {
           username
         }));
 
-      res.status(200).json({ 
-        message: 'Users Retrieved Successfully', 
-        isSuccessful: true, 
+      res.status(200).json({
+        message: 'Users Retrieved Successfully',
+        isSuccessful: true,
         data
-       });
+      });
     });
     return users;
   } catch (error) {

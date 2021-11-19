@@ -9,7 +9,6 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  passwordInputType = 'password';
 
   constructor(
     private authService: AuthService
@@ -19,7 +18,7 @@ export class LoginComponent implements OnInit {
     if (form.invalid) return;
 
     const authdata: any = {
-      email: form.value.inputEmail,
+      username: form.value.inputEmail,
       password: form.value.inputPassword
     }
     this.authService.loginUser(authdata);
