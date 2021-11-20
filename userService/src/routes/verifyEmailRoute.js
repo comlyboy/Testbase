@@ -6,6 +6,6 @@ const {
 } = require("../controllers/authController");
 
 // @desc To activate a user
-router.post("/confirm", verifyEmailController);
+router.get("/confirm", verifyEmailController);
 
 module.exports = router;

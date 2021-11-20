@@ -23,6 +23,10 @@ export class NavigationService {
     this.router.navigate(['/register']);
   }
 
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
 
 
   toggleSidenavSubject(url: string) {

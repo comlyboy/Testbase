@@ -15,7 +15,7 @@ export class StorageService {
   Returns `Void` */
   saveAuthData(token: string, user: any, loggedUserType?: any) {
     localStorage.setItem('token', token);
-    localStorage.setItem('loggedUser', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
     // localStorage.setItem('loggedUserType', JSON.stringify(loggedUserType));
   }
 

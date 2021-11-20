@@ -14,14 +14,15 @@ const handleValidation = (body, key) => {
 
 const registerController = async (req, res) => {
   try {
-    const { username, password, firstName, lastName } = req.body;
+    console.log(req.body)
+    const { username, password, firstName, surName } = req.body;
 
-    handleValidation({
-      first_name: firstName,
-      last_name: lastName,
-      username: username,
-      password: password
-    }, "register");
+    // handleValidation({
+    //   first_name: firstName,
+    //   last_name: surName,
+    //   username: username,
+    //   password: password
+    // }, "register");
 
     const usernameExist = await User.findOne({ username });
     if (usernameExist) {
@@ -37,26 +38,30 @@ const registerController = async (req, res) => {
 
     const user = new User({
       first_name: firstName,
-      last_name: lastName,
+      last_name: surName,
       username: username,
       password: hashed,
       status: 'Pending',
       confirmationCode: token
     });
+    console.log(user)
 
-    const emailApi = process.env.EMAIL_API + 'email';
+    const url = `${req.host}/confirm/${token}`
 
-    const emailData = {
-      email: username,
-      subject: "Please confirm your account",
-      html: `<h1>Email Confirmation</h1>
-            <h2>Hello ${username.split('@')[0].trim()}</h2>
-            <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-            <a href=http://localhost:3000/confirm/${token}> Click here</a>
-            </div>`,
-    };
-    const broker = await rabbit.getInstance();
-    await broker.send('email-queue', Buffer.from(JSON.stringify(emailData)));
+    console.log(url)
+    // const emailApi = process.env.EMAIL_API + 'email';
+
+    // const emailData = {
+    //   email: username,
+    //   subject: "Please confirm your account",
+    //   html: `<h1>Email Confirmation</h1>
+    //         <h2>Hello ${username.split('@')[0].trim()}</h2>
+    //         <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
+    //         <a href=http://localhost:3000/confirm/${token}> Click here</a>
+    //         </div>`,
+    // };
+    // const broker = await rabbit.getInstance();
+    // await broker.send('email-queue', Buffer.from(JSON.stringify(emailData)));
 
     await user.save();
 

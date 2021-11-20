@@ -86,12 +86,13 @@ export class AuthService {
       return this.notificationsService.notify('A user already Authenticated', 'info');
     }
 
-    this.http.post<{ message: string, isSuccessful: boolean, data: any }>(`${this.API_URL}api/login`, userSignInDto)
+    this.http.post<{ message: string, isSuccessful: boolean, data: any }>(`${this.API_URL.user}api/auth/login`, userSignInDto)
       .subscribe(response => {
 
         const token = response.data.token;
         this.token = token;
         this.userId = response.data.id;
+        const user = response.data;
 
         if (!response.isSuccessful) {
           return this.notificationsService.notify(response.message);
@@ -99,14 +100,30 @@ export class AuthService {
 
         this.notificationsService.notify(response.message);
         this.userIsAuthenticated = true;
-        // this.authenticatedUserType = AuthenticatedUserTypeEnum.owner;
-        // this.saveAuthenticationData(token, user);
+        this.saveAuthenticationData(token, user);
         this.authenticationStatusListener.next(true);
+        this.navigationService.goToDashboard();
       }, error => {
         this.authenticationStatusListener.next(false);
       });
   }
 
+
+
+  verifyUser(token: string) {
+    this.http.get<{ message: string, isSuccessful: boolean, data: any }>(`${this.API_URL.user}api/auth/confirm/${token}`)
+      .subscribe(response => {
+
+        if (!response.isSuccessful) {
+          return this.notificationsService.notify(response.message);
+        }
+
+        this.notificationsService.notify(response.message);
+        this.storageService.optimiseUserOBJ(response.data);
+      }, error => {
+        this.authenticationStatusListener.next(false);
+      });
+  }
 
 
   /**

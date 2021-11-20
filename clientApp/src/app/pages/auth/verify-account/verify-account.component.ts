@@ -20,7 +20,9 @@ export class VerifyAccountComponent implements OnInit {
     this.route.paramMap
       .subscribe((paramMap: ParamMap) => {
         const token = paramMap.get('token');
-        // this.authService.verifyBusinessAcccount(token);
+        if (token) {
+          this.authService.verifyUser(token);
+        }
       });
 
 

@@ -104,8 +104,9 @@
                 <!-- <button [disabled]="amountForm.invalid" type="submit" class="btn btn-handy border-radius mt-3 px-5"
                         data-dismiss="modal">Submit</button> -->
 
-                <div data-bs-dismiss="modal"  class="mt-3">
-                    <app-paystack [email]="'okekecornelius@gmail.com'"></app-paystack>
+                <div data-bs-dismiss="modal" class="mt-3">
+                    <app-paystack [amount]="inputedAmount" [email]="'cornelius.okeke@exquisappfactory.com'" (paymentSuccess)='onSuccessWallet($event)'>
+                    </app-paystack>
                 </div>
 
             </div>

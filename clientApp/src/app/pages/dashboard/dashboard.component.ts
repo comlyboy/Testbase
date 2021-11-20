@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { StorageService } from 'src/app/service/storage.service';
 
 import { UtilityService } from 'src/app/service/utility.service';
 
@@ -13,13 +14,16 @@ export class DashboardComponent implements OnInit {
   totalBillings = 0;
   walletBalance = 0;
   wallets: any[] = [];
-  wallet: any;
+  user: any;
+
+  inputedAmount = 2000;
 
   bilingPerPage = 8;
   currentPage = 1;
 
   constructor(
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private storageService: StorageService
   ) { }
 
 
@@ -30,14 +34,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-
-  onViewBilling(billingId: string) {
-    // this.billing = this.billings.find((item) => item._id === billingId);
-
+  onSuccessWallet(e: number) {
+    this.walletBalance = this.walletBalance + e;
   }
+
 
   initContents() {
     this.utilityService.setPageTitle('Dashboard');
+
+    this.user = this.storageService.getUserOBJ()
   }
 
   ngOnInit() {

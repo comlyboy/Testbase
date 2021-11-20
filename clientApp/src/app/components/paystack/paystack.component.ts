@@ -8,10 +8,10 @@ import { NotificationService } from '../notification/notification.service';
   styleUrls: ['./paystack.component.scss']
 })
 export class PaystackComponent implements OnInit {
-  @Input() amount = 23420;
-  @Input() email = 'okekecornelius@gmail.com';
+  @Input() amount = 2000;
+  @Input() email = 'cornelius.okeke@exquisappfactory.com';
 
-  @Output() PaymentSuccess = new EventEmitter();
+  @Output() paymentSuccess = new EventEmitter<number>();
 
   reference = '';
 
@@ -26,9 +26,18 @@ export class PaystackComponent implements OnInit {
     console.log('Payment initialized');
   }
 
+  get amountt() {
+    return this.amount;
+  }
+  get emaill() {
+    return this.email;
+  }
 
   paymentDone(response: any) {
-    this.notificationService.notify(response.message)
+    console.log(response)
+    this.notificationService.notify(response.message);
+
+    this.paymentSuccess.emit(this.amount);
   }
 
 
